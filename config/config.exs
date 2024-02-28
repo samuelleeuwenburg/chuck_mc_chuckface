@@ -32,6 +32,9 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
+# Configure the mailer
+config :chuck, Chuck.Mailer, adapter: Swoosh.Adapters.Local
+
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.0",
