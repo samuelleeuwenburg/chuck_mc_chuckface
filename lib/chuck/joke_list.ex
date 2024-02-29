@@ -22,4 +22,16 @@ defmodule Chuck.JokeList do
     joke_list
     |> cast(params, [:jokes])
   end
+
+  def add_joke(joke_list, id) do
+    jokes =
+      if joke_list.jokes == nil do
+        id
+      else
+        "#{joke_list.jokes},#{id}"
+      end
+
+    joke_list
+    |> change(jokes: jokes)
+  end
 end

@@ -5,15 +5,15 @@ end
 defmodule Chuck.JokesAPI do
   alias Chuck.JokesAPI.Joke
 
-  @api_url "https://api.chucknorris.io/jokes/"
+  @api_url "https://api.chucknorris.io/jokes"
 
   def get_random() do
     case HTTPoison.get("#{@api_url}/random") do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         Poison.decode(body, %{as: %Joke{}})
 
-      result ->
-        result
+      {_, response} ->
+        {:error, response}
     end
   end
 
@@ -22,20 +22,23 @@ defmodule Chuck.JokesAPI do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         Poison.decode(body, %{as: %Joke{}})
 
-      result ->
-        result
+      {_, response} ->
+        {:error, response}
     end
   end
 
   def search(query) do
     case HTTPoison.get("#{@api_url}/search?query=#{query}") do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Poison.decode!(body)
-        |> Map.fetch!("result")
-        |> Enum.map(fn j -> %Joke{id: j["id"], url: j["url"], value: j["value"]} end)
+        jokes =
+          Poison.decode!(body)
+          |> Map.fetch!("result")
+          |> Enum.map(fn j -> %Joke{id: j["id"], url: j["url"], value: j["value"]} end)
 
-      result ->
-        result
+        {:ok, jokes}
+
+      {_, response} ->
+        {:error, response}
     end
   end
 end
