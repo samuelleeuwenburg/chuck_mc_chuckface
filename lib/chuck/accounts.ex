@@ -5,8 +5,8 @@ defmodule Chuck.Accounts do
 
   import Ecto.Query, warn: false
   alias Chuck.Repo
-
   alias Chuck.Accounts.{User, UserToken, UserNotifier}
+  alias Chuck.JokeList
 
   ## Database getters
 
@@ -63,7 +63,7 @@ defmodule Chuck.Accounts do
   ## User registration
 
   @doc """
-  Registers a user.
+  Registers a user and creates an associated favorite jokes entry
 
   ## Examples
 
@@ -75,9 +75,12 @@ defmodule Chuck.Accounts do
 
   """
   def register_user(attrs) do
-    %User{}
-    |> User.registration_changeset(attrs)
-    |> Repo.insert()
+    with {:ok, user} <- %User{} |> User.registration_changeset(attrs) |> Repo.insert(),
+         {:ok, _} <- JokeList.create(user) do
+      {:ok, user}
+    else
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   @doc """

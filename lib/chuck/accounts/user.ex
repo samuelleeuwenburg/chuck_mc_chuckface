@@ -7,6 +7,7 @@ defmodule Chuck.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    has_one :favorite_jokes, Chuck.JokeList
 
     timestamps(type: :utc_datetime)
   end
