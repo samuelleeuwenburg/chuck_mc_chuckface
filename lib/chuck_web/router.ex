@@ -1,6 +1,7 @@
 defmodule ChuckWeb.Router do
   use ChuckWeb, :router
 
+  import ChuckWeb.JokesOverviewLive
   import ChuckWeb.UserAuth
 
   pipeline :browser do
@@ -18,17 +19,10 @@ defmodule ChuckWeb.Router do
   end
 
   scope "/", ChuckWeb do
-    pipe_through :browser
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     get "/", PageController, :home
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", ChuckWeb do
-  #   pipe_through :api
-  # end
-
-  ## Authentication routes
 
   scope "/", ChuckWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
@@ -49,6 +43,7 @@ defmodule ChuckWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{ChuckWeb.UserAuth, :ensure_authenticated}] do
+      live "/jokes", JokesOverviewLive
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
