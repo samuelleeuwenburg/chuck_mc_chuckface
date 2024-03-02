@@ -18,6 +18,10 @@ defmodule ChuckWeb.JokesOverviewLive do
     {:ok, socket}
   end
 
+  def handle_event("search_jokes", %{"query" => ""}, socket) do
+    {:noreply, assign(socket, jokes: nil, query: "", error: nil)}
+  end
+
   def handle_event("search_jokes", %{"query" => query}, socket) when byte_size(query) < 3 do
     {:noreply,
      assign(socket,
