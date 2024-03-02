@@ -31,6 +31,19 @@ defmodule Chuck do
   end
 
   @doc """
+  Remove a joke from a user's favorite list
+  """
+  def remove_from_favorites(user_id, id) do
+    query =
+      from list in JokeList,
+        where: list.user_id == ^user_id
+
+    Repo.one(query)
+    |> JokeList.remove_joke(id)
+    |> Repo.update()
+  end
+
+  @doc """
   Get favorite joke_list associated to a given user id
   """
   def get_favorite_list_for_user(user_id) do

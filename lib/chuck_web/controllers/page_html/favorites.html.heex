@@ -1,16 +1,17 @@
-<h1 class="text-7xl mb-8">My favorites</h1>
+<h1 class="text-6xl mb-8">My favorites</h1>
 
 <.link
   href={~p"/jokes/list/#{@list_id}"}
   target="_blank"
-  class="text-[1.5rem] mb-4 block leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+  class="text-[1rem] mb-8 block leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
 >
-  Open shareable link
+  > open shareable link in a new window [↗]
 </.link>
 
 <%= for joke <- @list do %>
   <div class="mb-8">
-    <p class="text-xl mb-2"><%= joke.value %></p>
+    <p class="text-xl mb-4"><%= joke.value %></p>
+    <hr />
   </div>
 <% end %>
 
