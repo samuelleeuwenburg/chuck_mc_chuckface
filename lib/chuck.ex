@@ -31,9 +31,9 @@ defmodule Chuck do
   end
 
   @doc """
-  Get all favorite joke_list for a given user
+  Get favorite joke_list associated to a given user id
   """
-  def get_favorites_for_user(user_id) do
+  def get_favorite_list_for_user(user_id) do
     query =
       from list in JokeList,
         where: list.user_id == ^user_id
@@ -47,7 +47,10 @@ defmodule Chuck do
   def get_jokes(id) do
     case Repo.get(JokeList, id) do
       nil ->
-        {:error, "not found"}
+        {:error, :not_found}
+
+      %{jokes: nil} ->
+        {:error, :no_favorites}
 
       list ->
         jokes =

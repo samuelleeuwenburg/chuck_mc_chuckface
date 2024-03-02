@@ -1,7 +1,6 @@
 defmodule ChuckWeb.Router do
   use ChuckWeb, :router
 
-  import ChuckWeb.JokesOverviewLive
   import ChuckWeb.UserAuth
 
   pipeline :browser do

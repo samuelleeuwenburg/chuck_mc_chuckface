@@ -17,7 +17,7 @@ defmodule ChuckWeb.PageController do
   def user_favorites(conn, _params) do
     user = conn.assigns.current_user
 
-    with %{id: id} <- Chuck.get_favorites_for_user(user.id),
+    with %{id: id} <- Chuck.get_favorite_list_for_user(user.id),
          {:ok, list} <- Chuck.get_jokes(id) do
       render(conn, :favorites, list: list, list_id: id)
     else

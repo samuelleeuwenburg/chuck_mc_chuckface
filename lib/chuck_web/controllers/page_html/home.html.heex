@@ -1,12 +1,12 @@
 <.flash_group flash={@flash} />
 <div class="w-full h-screen flex justify-center items-center">
   <div class="text-center">
-    <p>Welcome to the chucknorris.io joke explorer, please register or log in to use the app.</p>
+    <p class="text-[1.6rem] mb-4">Welcome to the chucknorris.io joke explorer, please register or log in to use the app.</p>
     <ul>
       <li class="inline">
         <.link
           href={~p"/users/register"}
-          class="text-[2rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+          class="text-[2rem] font-bold mr-8"
         >
           Register
         </.link>
@@ -14,7 +14,7 @@
       <li class="inline">
         <.link
           href={~p"/users/log_in"}
-          class="text-[2rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+          class="text-[2rem] font-bold "
         >
           Log in
         </.link>

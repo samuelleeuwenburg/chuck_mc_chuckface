@@ -1,17 +1,16 @@
 <h1 class="text-7xl mb-8">My favorites</h1>
 
-<p>share my favorites:</p>
-        <.link
-          href={~p"/jokes/list/#{@list_id}"}
-          class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-        >
-          Open shareable link
-        </.link>
+<.link
+  href={~p"/jokes/list/#{@list_id}"}
+  target="_blank"
+  class="text-[1.5rem] mb-4 block leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+>
+  Open shareable link
+</.link>
 
 <%= for joke <- @list do %>
   <div class="mb-8">
     <p class="text-xl mb-2"><%= joke.value %></p>
-    <button phx-click="add_to_favorites" phx-value-id={joke.id}>> add to favorites</button>
   </div>
 <% end %>
 
