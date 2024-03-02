@@ -31,8 +31,36 @@ defmodule Chuck do
   end
 
   @doc """
-  Get all favorite jokes for a given user
+  Get all favorite joke_list for a given user
   """
-  def get_favorites(_user) do
+  def get_favorites_for_user(user_id) do
+    query =
+      from list in JokeList,
+        where: list.user_id == ^user_id
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Fetch all remote jokes based on the list id
+  """
+  def get_jokes(id) do
+    case Repo.get(JokeList, id) do
+      nil ->
+        {:error, "not found"}
+
+      list ->
+        jokes =
+          list.jokes
+          |> String.split(",")
+          # run all get queries in parallel
+          |> Enum.map(&Task.async(fn -> JokesAPI.get(&1) end))
+          |> Task.await_many()
+          # filter out requests that didn't succeeed
+          |> Enum.filter(fn {status, _} -> status != :error end)
+          |> Enum.map(fn {_, joke} -> joke end)
+
+        {:ok, jokes}
+    end
   end
 end

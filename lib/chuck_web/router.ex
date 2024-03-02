@@ -52,6 +52,9 @@ defmodule ChuckWeb.Router do
   scope "/", ChuckWeb do
     pipe_through [:browser]
 
+    get "/jokes/list/:id", PageController, :joke_list
+    get "/jokes/favorites", PageController, :user_favorites
+
     delete "/users/log_out", UserSessionController, :delete
 
     live_session :current_user,

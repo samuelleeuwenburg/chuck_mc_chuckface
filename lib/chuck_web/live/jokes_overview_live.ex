@@ -36,7 +36,8 @@ defmodule ChuckWeb.JokesOverviewLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="text-2xl">Search:</h1>
+    <h1 class="text-7xl mb-8">Chuck McChuckface</h1>
+    <h2 class="text-2xl">Search Chuck Norris jokes:</h2>
     <form phx-change="search_jokes" phx-submit="search_jokes">
       <input class="mb-8 w-full" type="text" name="query" phx-debounce="1000" />
     </form>
