@@ -1,5 +1,5 @@
 defmodule Chuck.JokesAPI.Joke do
-  defstruct [:id, :url, :value]
+  defstruct [:id, :value]
 end
 
 defmodule Chuck.JokesAPI do
@@ -33,7 +33,7 @@ defmodule Chuck.JokesAPI do
         jokes =
           Poison.decode!(body)
           |> Map.fetch!("result")
-          |> Enum.map(fn j -> %Joke{id: j["id"], url: j["url"], value: j["value"]} end)
+          |> Enum.map(fn j -> %Joke{id: j["id"], value: j["value"]} end)
 
         {:ok, jokes}
 

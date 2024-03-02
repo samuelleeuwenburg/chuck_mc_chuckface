@@ -13,25 +13,36 @@ defmodule Chuck.JokeList do
 
   def create(user, params \\ %{}) do
     %JokeList{}
-    |> JokeList.changeset(params)
+    |> changeset(params)
     |> put_assoc(:user, user)
     |> Repo.insert()
   end
 
-  def changeset(joke_list, params \\ %{}) do
-    joke_list
+  def changeset(list, params \\ %{}) do
+    list
     |> cast(params, [:jokes])
   end
 
-  def add_joke(joke_list, id) do
-    jokes =
-      if joke_list.jokes == nil do
-        id
-      else
-        "#{joke_list.jokes},#{id}"
-      end
+  def add_joke(list, id) do
+    jokes = [id | get_joke_ids(list)] |> serialize_ids
 
-    joke_list
-    |> change(jokes: jokes)
+    changeset(list, %{jokes: jokes})
+  end
+
+  def remove_joke(list, id) do
+    jokes = get_joke_ids(list) |> List.delete(id) |> serialize_ids
+
+    changeset(list, %{jokes: jokes})
+  end
+
+  def get_joke_ids(list) do
+    case list.jokes do
+      nil -> []
+      jokes -> jokes |> String.split(",")
+    end
+  end
+
+  defp serialize_ids(ids) do
+    ids |> Enum.dedup() |> Enum.join(",")
   end
 end

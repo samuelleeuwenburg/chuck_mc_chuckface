@@ -54,8 +54,8 @@ defmodule Chuck do
 
       list ->
         jokes =
-          list.jokes
-          |> String.split(",")
+          list
+          |> JokeList.get_joke_ids()
           # run all get queries in parallel
           |> Enum.map(&Task.async(fn -> JokesAPI.get(&1) end))
           |> Task.await_many()
